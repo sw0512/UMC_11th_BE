@@ -1,0 +1,273 @@
+{
+  "info": {
+    "name": "BE Week 4 - Spring Boot JPA",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "필수 미션과 선택 미션(도서 제목 검색). POST 성공 요청은 실행할 때마다 도서를 한 권 등록합니다."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8081"
+    },
+    {
+      "key": "categoryId",
+      "value": "1"
+    },
+    {
+      "key": "keyword",
+      "value": "ORM"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 GET 도서 목록 (최신순)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "const books = pm.response.json();",
+              "pm.test(\"배열 응답\", () => pm.expect(books).to.be.an(\"array\"));",
+              "pm.test(\"DTO 필드와 최신순\", () => { books.forEach((b, i) => { pm.expect(b).to.have.all.keys(\"bookId\", \"title\", \"description\", \"categoryName\", \"isAvailable\"); if (i > 0) pm.expect(books[i - 1].bookId).to.be.above(b.bookId); }); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 POST 도서 등록 (201)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"categoryId\":{{categoryId}},\"title\":\"4주차 ORM 실습 도서\",\"description\":\"JPA 등록 API와 DTO 응답 검증\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+              "const book = pm.response.json();",
+              "pm.test(\"생성 ID와 기본 대여 가능 값\", () => { pm.expect(book.bookId).to.be.a(\"number\"); pm.expect(book.isAvailable).to.eql(true); pm.expect(book.categoryName).to.be.a(\"string\"); });",
+              "pm.collectionVariables.set(\"createdBookId\", book.bookId);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 POST 공백 제목 (400)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"categoryId\":{{categoryId}},\"title\":\"   \"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+              "pm.test(\"제목 검증 메시지\", () => pm.expect(pm.response.json().errors.title).to.be.a(\"string\"));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 POST 없는 카테고리 (404)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"categoryId\":999999,\"title\":\"없는 카테고리 검증\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 GET 제목 검색 (선택 미션)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books?keyword={{keyword}}",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"검색 제목과 일치\", () => pm.response.json().forEach(b => pm.expect(b.title.toLowerCase()).to.include(pm.collectionVariables.get(\"keyword\").toLowerCase())));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 GET 검색 결과 없음",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books?keyword=__no_such_title_week4__",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"빈 배열\", () => pm.expect(pm.response.json()).to.eql([]));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 POST 필수 카테고리 누락 (400)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\":\"책\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 POST 소수 카테고리 ID (400)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/books",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"categoryId\":1.5,\"title\":\"책\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 GET 기존 카테고리 경로",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/books/category/{{categoryId}}",
+        "header": []
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

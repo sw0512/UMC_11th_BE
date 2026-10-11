@@ -1,0 +1,179 @@
+{
+  "server": "http://127.0.0.1:8081",
+  "verification": "실제 MySQL be_week2, ddl-auto validate",
+  "postmanCreatedBookId": 5,
+  "results": [
+    {
+      "name": "목록 조회",
+      "method": "GET",
+      "path": "/books",
+      "requestBody": null,
+      "status": 200,
+      "response": [
+        {
+          "bookId": 5,
+          "title": "4주차 ORM 실습 도서",
+          "description": "JPA 등록 API와 DTO 응답 검증",
+          "categoryName": "문학",
+          "isAvailable": true
+        },
+        {
+          "bookId": 4,
+          "title": "클린 코드",
+          "description": "애자일 소프트웨어 장인 정신",
+          "categoryName": "문학",
+          "isAvailable": true
+        },
+        {
+          "bookId": 3,
+          "title": "우주를 읽는 법",
+          "description": "과학 교양",
+          "categoryName": "과학",
+          "isAvailable": true
+        },
+        {
+          "bookId": 2,
+          "title": "겨울의 편지",
+          "description": "에세이",
+          "categoryName": "문학",
+          "isAvailable": false
+        },
+        {
+          "bookId": 1,
+          "title": "달빛 도서관",
+          "description": "소설",
+          "categoryName": "문학",
+          "isAvailable": true
+        }
+      ]
+    },
+    {
+      "name": "공백 제목 거절",
+      "method": "POST",
+      "path": "/books",
+      "requestBody": {
+        "categoryId": 1,
+        "title": "   "
+      },
+      "status": 400,
+      "response": {
+        "status": 400,
+        "message": "요청 값이 올바르지 않습니다.",
+        "errors": {
+          "title": "제목은 비어 있을 수 없습니다."
+        }
+      }
+    },
+    {
+      "name": "없는 카테고리 거절",
+      "method": "POST",
+      "path": "/books",
+      "requestBody": {
+        "categoryId": 999999,
+        "title": "검증"
+      },
+      "status": 404,
+      "response": {
+        "status": 404,
+        "message": "존재하지 않는 카테고리입니다: 999999",
+        "errors": {}
+      }
+    },
+    {
+      "name": "제목 검색",
+      "method": "GET",
+      "path": "/books?keyword=ORM",
+      "requestBody": null,
+      "status": 200,
+      "response": [
+        {
+          "bookId": 5,
+          "title": "4주차 ORM 실습 도서",
+          "description": "JPA 등록 API와 DTO 응답 검증",
+          "categoryName": "문학",
+          "isAvailable": true
+        }
+      ]
+    },
+    {
+      "name": "검색 결과 없음",
+      "method": "GET",
+      "path": "/books?keyword=__no_such_title_week4__",
+      "requestBody": null,
+      "status": 200,
+      "response": []
+    },
+    {
+      "name": "기존 카테고리 경로 유지",
+      "method": "GET",
+      "path": "/books/category/2",
+      "requestBody": null,
+      "status": 200,
+      "response": [
+        {
+          "bookId": 3,
+          "title": "우주를 읽는 법",
+          "description": "과학 교양",
+          "categoryName": "과학",
+          "isAvailable": true
+        }
+      ]
+    },
+    {
+      "name": "오류 요청 후 개수 확인",
+      "method": "GET",
+      "path": "/books",
+      "requestBody": null,
+      "status": 200,
+      "response": [
+        {
+          "bookId": 5,
+          "title": "4주차 ORM 실습 도서",
+          "description": "JPA 등록 API와 DTO 응답 검증",
+          "categoryName": "문학",
+          "isAvailable": true
+        },
+        {
+          "bookId": 4,
+          "title": "클린 코드",
+          "description": "애자일 소프트웨어 장인 정신",
+          "categoryName": "문학",
+          "isAvailable": true
+        },
+        {
+          "bookId": 3,
+          "title": "우주를 읽는 법",
+          "description": "과학 교양",
+          "categoryName": "과학",
+          "isAvailable": true
+        },
+        {
+          "bookId": 2,
+          "title": "겨울의 편지",
+          "description": "에세이",
+          "categoryName": "문학",
+          "isAvailable": false
+        },
+        {
+          "bookId": 1,
+          "title": "달빛 도서관",
+          "description": "소설",
+          "categoryName": "문학",
+          "isAvailable": true
+        }
+      ]
+    }
+  ],
+  "finalBuildChecks": {
+    "bookCount": 5,
+    "categoryCount": 2,
+    "createdBookId": 5,
+    "fractionalCategoryStatus": 400,
+    "fractionalCategoryResponse": {
+      "status": 400,
+      "message": "요청 형식이 올바르지 않습니다.",
+      "errors": {}
+    },
+    "ddlAuto": "validate"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "com.umc.study.BookApiIntegrationTests",
+    "tests": "15",
+    "failures": "0",
+    "errors": "0"
+  },
+  {
+    "name": "com.umc.study.StudyApplicationTests",
+    "tests": "1",
+    "failures": "0",
+    "errors": "0"
+  }
+]
