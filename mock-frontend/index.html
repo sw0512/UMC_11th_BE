@@ -9,15 +9,24 @@
 
     <button onclick="testCors()">API 호출하기</button>
 
+    <p id="result"></p>
+
     <script>
       async function testCors() {
         try {
+          const nickname = "수현";
+
           const response = await fetch(
-            "http://localhost:8080/members/nickname/noco",
+            `http://localhost:8080/members/nickname/${encodeURIComponent(nickname)}`,
           );
 
           const data = await response.json();
-          console.log(data);
+
+          console.log("API 응답:", data);
+
+          document.getElementById("result").innerText = data.available
+            ? "사용 가능한 닉네임입니다."
+            : "이미 사용 중인 닉네임입니다.";
         } catch (error) {
           console.error("API 호출 실패:", error);
         }
