@@ -36,4 +36,13 @@ public class RatingService {
                 .map(RatingResponse::from)
                 .toList();
     }
+
+ @Transactional public Long create(Long memberId,com.umc.movie.dto.CreateRatingRequest r){
+ var m=memberRepository.findById(memberId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"존재하지 않는 회원입니다."));
+ if(ratingRepository.existsByMember_MemberIdAndMovieId(memberId,r.movieId())) throw new com.umc.movie.exception.ApiException(409,"RATING409","이미 이 영화에 평점을 남기셨습니다.");
+ return ratingRepository.saveAndFlush(new Rating(m,r.movieId(),r.score(),r.comment())).getRatingId(); }
+ private Rating owned(Long memberId,Long ratingId){var r=ratingRepository.findById(ratingId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"존재하지 않는 평점입니다.")); if(!r.getMember().getMemberId().equals(memberId))throw new ResponseStatusException(HttpStatus.FORBIDDEN,"본인의 평점만 수정하거나 삭제할 수 있습니다.");return r;}
+ @Transactional public void update(Long memberId,Long ratingId,com.umc.movie.dto.UpdateRatingRequest r){owned(memberId,ratingId).update(r.score(),r.comment());}
+ @Transactional public void delete(Long memberId,Long ratingId){ratingRepository.delete(owned(memberId,ratingId));}
+
 }

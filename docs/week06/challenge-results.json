@@ -1,0 +1,246 @@
+[
+  {
+    "case": "email",
+    "concurrentRequests": 8,
+    "results": [
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118700"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4091",
+          "message": "이미 사용 중인 이메일입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118701"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4091",
+          "message": "이미 사용 중인 이메일입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118702"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4091",
+          "message": "이미 사용 중인 이메일입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118703"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4091",
+          "message": "이미 사용 중인 이메일입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118704"
+        },
+        "status": 201,
+        "response": {
+          "isSuccess": true,
+          "code": "COMMON201",
+          "message": "회원가입에 성공했습니다.",
+          "result": {
+            "memberId": 5,
+            "email": "challenge1794111870@example.com",
+            "nickname": "e41118704"
+          }
+        }
+      },
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118705"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4091",
+          "message": "이미 사용 중인 이메일입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118706"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4091",
+          "message": "이미 사용 중인 이메일입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "challenge1794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "e41118707"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4091",
+          "message": "이미 사용 중인 이메일입니다.",
+          "result": null
+        }
+      }
+    ]
+  },
+  {
+    "case": "nickname",
+    "concurrentRequests": 8,
+    "results": [
+      {
+        "request": {
+          "email": "n01794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4092",
+          "message": "이미 사용 중인 닉네임입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "n11794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 201,
+        "response": {
+          "isSuccess": true,
+          "code": "COMMON201",
+          "message": "회원가입에 성공했습니다.",
+          "result": {
+            "memberId": 299,
+            "email": "n11794111870@example.com",
+            "nickname": "c794111870"
+          }
+        }
+      },
+      {
+        "request": {
+          "email": "n21794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4092",
+          "message": "이미 사용 중인 닉네임입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "n31794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4092",
+          "message": "이미 사용 중인 닉네임입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "n41794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4092",
+          "message": "이미 사용 중인 닉네임입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "n51794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4092",
+          "message": "이미 사용 중인 닉네임입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "n61794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4092",
+          "message": "이미 사용 중인 닉네임입니다.",
+          "result": null
+        }
+      },
+      {
+        "request": {
+          "email": "n71794111870@example.com",
+          "password": "Umc!1234",
+          "nickname": "c794111870"
+        },
+        "status": 409,
+        "response": {
+          "isSuccess": false,
+          "code": "MEMBER4092",
+          "message": "이미 사용 중인 닉네임입니다.",
+          "result": null
+        }
+      }
+    ]
+  }
+]

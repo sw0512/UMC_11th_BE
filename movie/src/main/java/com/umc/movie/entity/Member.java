@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "member")
+@Table(name = "member", uniqueConstraints = {
+ @UniqueConstraint(name = "uk_member_email", columnNames = "email"),
+ @UniqueConstraint(name = "uk_member_nickname", columnNames = "nickname")
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
@@ -16,12 +19,13 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long memberId;
 
-    @Column(nullable = false, unique = true, length = 254)
+    @Column(nullable = false, length = 254)
     private String email;
 
     @Column(nullable = false, length = 60)
     private String password;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, length = 50)
     private String nickname;
+public Member(String email,String password,String nickname){this.email=email;this.password=password;this.nickname=nickname;}
 }

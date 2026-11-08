@@ -26,4 +26,7 @@ public class MemberController {
     ) {
         return memberService.checkEmail(email);
     }
+
+ @PostMapping public org.springframework.http.ResponseEntity<?> signUp(@jakarta.validation.Valid @RequestBody com.umc.movie.dto.SignUpRequest r){return org.springframework.http.ResponseEntity.status(201).body(com.umc.movie.dto.ApiResponse.created("회원가입에 성공했습니다.",memberService.signUp(r)));}
+
 }
